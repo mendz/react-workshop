@@ -22,12 +22,14 @@ module.exports = {
 				}
 			},
 			{
-				test: /\.scss$/,
-				loader: 'sass-loader'
+				test: /\.css$/,
+				loader: ['style-loader', 'css-loader']
 			}
 		]
 	},
 	plugins: [
-		new HTMLWebpackPlugin()
+		new HTMLWebpackPlugin({
+			title: "React workshop"
+		})
 	]
 };
