@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import './style.css';
-import 'bootstrap/dist/css/bootstrap.css';
+import './style.scss';
 
 const div = document.createElement('div');
 document.body.appendChild(div);

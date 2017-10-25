@@ -1,0 +1,9 @@
+@import "~bootstrap/scss/bootstrap";
+$border-color: #c9c9c9;
+.app {
+    text-align: center;
+    padding: 40px;
+    margin: 100px auto 0;
+    border: 1px solid $border-color;
+    width: 500px;
+}
