@@ -1,9 +1,12 @@
 const { resolve } = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const { HotModuleReplacementPlugin, NamedModulesPlugin } = require('webpack');
 
 module.exports = {
 	devtool: 'source-map',
 	entry: [
+		'babel-polyfill',
+		'react-hot-loader/patch',
 		'./index'
 	],
 	output: {
@@ -19,17 +22,21 @@ module.exports = {
 				loader: 'babel-loader',
 				options: {
 					presets: [["env", { modules: false }], "react"],
+					plugins: ["react-hot-loader/babel"]
 				}
 			},
 			{
 				test: /\.scss$/,
-				loader: ['style-loader', 'css-loader', 'sass-loader']
+				loader: ['style-loader?sourceMap', 'css-loader?sourceMap', 'sass-loader?sourceMap']
 			}
 		]
 	},
 	plugins: [
-		new HTMLWebpackPlugin({
-			title: "React workshop"
-		})
-	]
+		new HTMLWebpackPlugin(),
+		new HotModuleReplacementPlugin(),
+		new NamedModulesPlugin()
+	],
+	devServer: {
+		hot: true
+	}
 };
