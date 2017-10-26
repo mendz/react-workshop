@@ -1,4 +1,4 @@
-[
+const smurfs = [
 	{
 		"name": "Baby Smurf",
 		"src": "https://smurfs.blob.core.windows.net/media/22669/baby.png",
@@ -84,4 +84,4 @@
 		"src": "https://smurfs.blob.core.windows.net/media/22686/wild.png",
 		"desc": "Raised by squirrels, this feral Smurf, who mostly uses grunts to communicate, lives in the forest. With his hat of hazel leaves and his loincloth, he’s probably the oddest of all the Smurfs. Watch out: he’s a real character!"
 	}
-]
+];
