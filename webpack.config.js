@@ -3,7 +3,7 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { HotModuleReplacementPlugin, NamedModulesPlugin } = require('webpack');
 
 module.exports = {
-	devtool: 'source-map',
+	devtool: 'cheap-eval-source-map',
 	entry: [
 		'babel-polyfill',
 		'react-hot-loader/patch',
