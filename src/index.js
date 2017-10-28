@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader'
 import App from './components/App';
 import './sass/style.scss';
+import 'font-awesome/scss/font-awesome.scss';
 import smurfs from './data/smurfs.json';
 
 const div = document.createElement('div');

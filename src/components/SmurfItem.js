@@ -13,7 +13,7 @@ const SmurfItem = ({ item, onClick }) => {
 	} else {
 		nameEl = <div>{name}</div>
 	}
-	return <div className={cn("smurf-item d-flex align-items-center bb px-3 py-2", {unread: !item.isRead})}
+	return <div className={cn("smurf-item d-flex align-items-center px-3 flex-1", {unread: !item.isRead})}
 			 style={{cursor: 'pointer'}} onClick={() => onClick(item)}>
 		<img src={src} className="rounded-circle mr-3" width="75" height="75"/>
 		{nameEl}

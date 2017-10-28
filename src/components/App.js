@@ -7,7 +7,8 @@ export default class App extends Component {
 
 	state = {
 		activeItem: null,
-		data: this.props.data
+		data: this.props.data,
+		selectedItems: []
 	};
 
 	onItemClick = (item) => {
@@ -19,8 +20,30 @@ export default class App extends Component {
 		});
 	};
 
+	onSelectItem = (item, isChecked) => {
+		let selectedItems;
+		if (isChecked) {
+			selectedItems = [...this.state.selectedItems, item];
+		} else {
+			selectedItems = this.state.selectedItems.filter(item2 => item2.name !== item.name);
+		}
+		this.setState({ selectedItems });
+	};
+
+	onDelete = () => {
+		this.setState({
+			data: this.state.data.filter(item => !this.state.selectedItems.find(item2 => item2.name === item.name))
+		});
+	};
+
+	resetSelection = () => {
+		this.setState({
+			selectedItems: []
+		});
+	};
+
 	render() {
-		const { data } = this.props;
+		const { data } = this.state;
 
 		const content = this.state.activeItem ?
 			<Smurf {...this.state.activeItem} /> :
@@ -29,7 +52,13 @@ export default class App extends Component {
 		return (
 			<Row className="h-100 bg-white" noGutters>
 				<Col xs="auto" className="br overflow-auto">
-					<SmurfList items={data} onItemClick={this.onItemClick}/>
+					<SmurfList
+						items={data}
+						onItemClick={this.onItemClick}
+						onSelectItem={this.onSelectItem}
+						resetSelection={this.resetSelection}
+						onDelete={this.onDelete}
+						canDelete={this.state.selectedItems.length > 0}/>
 				</Col>
 				<Col className="d-flex align-items-center justify-content-center">
 					<div className="w-50">
