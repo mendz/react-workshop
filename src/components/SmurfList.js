@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import cn from 'classnames';
 import SmurfItem from './SmurfItem';
 import { Input, Button } from 'reactstrap';
 
@@ -15,7 +16,7 @@ class SmurfList extends Component {
 	};
 
 	render() {
-		const { items, onItemClick, onSelectItem, canDelete, isEditMode, onDelete, onEdit, selectedItems } = this.props;
+		const { items, onItemClick, onSelectItem, canDelete, isEditMode, onDelete, onEdit, selectedItems, activeItem } = this.props;
 		const { filter } = this.state;
 
 		let itemsToRender = items;
@@ -38,7 +39,7 @@ class SmurfList extends Component {
 					<Button color="danger" title={deleteTooltip} disabled={isDeleteDisabled} onClick={onDelete}><i className="fa fa-trash"/></Button>
 				</div>
 				{itemsToRender.map((item, i) => (
-					<div className="d-flex align-items-center bb py-2" key={item.name}>
+					<div className={cn("d-flex align-items-center bb py-2 position-relative", { active: activeItem && (item.name === activeItem.name) })} key={item.name}>
 						{ isEditMode &&
 							<input
 								className="ml-3"
