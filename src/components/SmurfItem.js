@@ -2,7 +2,6 @@ import React from 'react';
 import cn from 'classnames';
 
 const SmurfItem = ({ item, onClick }) => {
-	console.log(item.name, item.match);
 	const { name, src, match } = item;
 	let nameEl;
 	if (match) {

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import Smurf from './Smurf';
-import SmurfItem from './SmurfItem';
 import { Row, Col } from 'reactstrap';
+import SmurfList from "./SmurfList";
 
 export default class App extends Component {
 
 	state = {
-		filter: null,
 		activeItem: null,
 		data: this.props.data
 	};
@@ -20,20 +19,8 @@ export default class App extends Component {
 		});
 	};
 
-	onChange = (e) => {
-		this.setState({
-			filter: e.target.value
-		});
-	};
-
 	render() {
-		const { data } = this.state;
-		let items = data;
-		if (this.state.filter) {
-			items = data.map(smurf => Object.assign({}, smurf, {
-				match: smurf.name.match(new RegExp(this.state.filter, "i"))
-			})).filter(smurf => smurf.match);
-		}
+		const { data } = this.props;
 
 		const content = this.state.activeItem ?
 			<Smurf {...this.state.activeItem} /> :
@@ -42,8 +29,7 @@ export default class App extends Component {
 		return (
 			<Row className="h-100 bg-white" noGutters>
 				<Col xs="auto" className="br overflow-auto">
-					<input onChange={this.onChange}/>
-					{items.map((smurf, i) => <SmurfItem key={smurf.name} item={smurf} onClick={this.onItemClick} />)}
+					<SmurfList items={data} onItemClick={this.onItemClick}/>
 				</Col>
 				<Col className="d-flex align-items-center justify-content-center">
 					<div className="w-50">
