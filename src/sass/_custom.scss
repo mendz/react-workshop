@@ -1,5 +1,9 @@
 $body-bg: #ebebeb;
 
+body {
+  user-select: none;
+}
+
 .smurf-item {
   position: relative;
 }
