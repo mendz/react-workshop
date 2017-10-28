@@ -5,6 +5,9 @@ import App from './components/App';
 import './sass/style.scss';
 import 'font-awesome/scss/font-awesome.scss';
 import smurfs from './data/smurfs.json';
+import store from './store';
+
+store.data = smurfs;
 
 const div = document.createElement('div');
 div.style.height = '100%';
@@ -14,7 +17,7 @@ document.body.appendChild(div);
 const render = Component => {
 	ReactDOM.render(
 		<AppContainer>
-			<Component data={smurfs}/>
+			<Component />
 		</AppContainer>,
 		div
 	)

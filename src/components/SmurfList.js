@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { observer } from 'mobx-react';
 import cn from 'classnames';
 import SmurfItem from './SmurfItem';
 import { Input, Button } from 'reactstrap';
@@ -56,4 +57,4 @@ class SmurfList extends Component {
 
 }
 
-export default SmurfList;
+export default observer(SmurfList);
