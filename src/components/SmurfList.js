@@ -6,7 +6,6 @@ class SmurfList extends Component {
 
 	state = {
 		filter: null,
-		isEditMode: false
 	};
 
 	onFilterChange = (e) => {
@@ -15,23 +14,9 @@ class SmurfList extends Component {
 		});
 	};
 
-	onEdit = (e) => {
-		this.setState({
-			isEditMode: !this.state.isEditMode
-		})
-	};
-
-	onDelete = (e) => {
-		this.props.onDelete();
-		this.props.resetSelection();
-		this.setState({
-			isEditMode: false
-		});
-	};
-
 	render() {
-		const { items, onItemClick, onSelectItem, canDelete } = this.props;
-		const { filter, isEditMode } = this.state;
+		const { items, onItemClick, onSelectItem, canDelete, isEditMode, onDelete, onEdit, selectedItems } = this.props;
+		const { filter } = this.state;
 
 		let itemsToRender = items;
 
@@ -49,13 +34,21 @@ class SmurfList extends Component {
 			<div>
 				<div className="d-flex p-3">
 					<Input onChange={this.onFilterChange} className="mr-3"/>
-					<Button color="primary" outline={!isEditMode} onClick={this.onEdit} className="mr-3"><i className="fa fa-pencil"/></Button>
-					<Button color="danger" title={deleteTooltip} disabled={isDeleteDisabled} onClick={this.onDelete}><i className="fa fa-trash"/></Button>
+					<Button color="primary" outline={!isEditMode} onClick={onEdit} className="mr-3"><i className="fa fa-pencil"/></Button>
+					<Button color="danger" title={deleteTooltip} disabled={isDeleteDisabled} onClick={onDelete}><i className="fa fa-trash"/></Button>
 				</div>
-				{itemsToRender.map((item, i) => <div className="d-flex align-items-center bb py-2" key={item.name}>
-					{ isEditMode && <input className="ml-3" type="checkbox" onChange={(e) => onSelectItem(item, e.target.checked)} /> }
-					<SmurfItem item={item} onClick={onItemClick} />
-				</div>)}
+				{itemsToRender.map((item, i) => (
+					<div className="d-flex align-items-center bb py-2" key={item.name}>
+						{ isEditMode &&
+							<input
+								className="ml-3"
+								type="checkbox"
+								onChange={(e) => onSelectItem(item, e.target.checked)}
+								checked={!!selectedItems.find(item2 => item2.name === item.name)}
+							/> }
+						<SmurfItem item={item} onClick={onItemClick} />
+					</div>
+				))}
 			</div>
 		);
 	}

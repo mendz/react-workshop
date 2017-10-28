@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Smurf from './Smurf';
 import { Row, Col } from 'reactstrap';
 import SmurfList from "./SmurfList";
+import { deleteSmurfs } from '../services/smurf-service';
 
 let startX;
 let startWidth;
@@ -12,7 +13,9 @@ export default class App extends Component {
 		activeItem: null,
 		data: this.props.data,
 		selectedItems: [],
-		width: 300
+		width: 300,
+		isEditMode: false,
+		deleting: false
 	};
 
 	onItemClick = (item) => {
@@ -34,15 +37,26 @@ export default class App extends Component {
 		this.setState({ selectedItems });
 	};
 
-	onDelete = () => {
+	onEdit = (e) => {
 		this.setState({
-			data: this.state.data.filter(item => !this.state.selectedItems.find(item2 => item2.name === item.name))
-		});
+			isEditMode: !this.state.isEditMode
+		})
 	};
 
-	resetSelection = () => {
+	onDelete = () => {
+		const { data, selectedItems } = this.state;
+
 		this.setState({
-			selectedItems: []
+			deleting: true
+		});
+
+		deleteSmurfs(selectedItems).then(() => {
+			this.setState({
+				data: data.filter(item => !selectedItems.find(item2 => item2.name === item.name)),
+				isEditMode: false,
+				selectedItems: [],
+				deleting: false
+			});
 		});
 	};
 
@@ -65,7 +79,7 @@ export default class App extends Component {
 	};
 
 	render() {
-		const { data, width, activeItem, selectedItems } = this.state;
+		const { data, width, activeItem, selectedItems, isEditMode, deleting } = this.state;
 
 		const content = activeItem ?
 			<Smurf {...activeItem} /> :
@@ -78,9 +92,12 @@ export default class App extends Component {
 						items={data}
 						onItemClick={this.onItemClick}
 						onSelectItem={this.onSelectItem}
-						resetSelection={this.resetSelection}
 						onDelete={this.onDelete}
-						canDelete={selectedItems.length > 0}/>
+						canDelete={selectedItems.length > 0}
+						selectedItems={selectedItems}
+						onEdit={this.onEdit}
+						isEditMode={isEditMode}/>
+					{ deleting && <div className="overlay"/> }
 				</Col>
 				<Col style={{flex: '0 0 5px', cursor: 'move'}} onMouseDown={this.onDragStart}/>
 				<Col className="d-flex align-items-center justify-content-center">
