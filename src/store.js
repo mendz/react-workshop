@@ -1,5 +1,6 @@
 import { observable, action } from 'mobx';
 import { deleteSmurfs } from './services/smurf-service';
+import storeList from './store-list';
 
 const store = observable({
 	activeItem: null,
@@ -8,6 +9,8 @@ const store = observable({
 	width: 300,
 	isEditMode: false,
 	deleting: false,
+
+	storeList,
 
 	onItemClick: action((item) => {
 		const newData = store.data.slice();

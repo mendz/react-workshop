@@ -9,8 +9,7 @@ import startDrag from '../drag';
 
 const App = () => {
 	const {
-		onEdit, onItemClick, onSelectItem, onDelete,
-		data, width, activeItem, selectedItems, isEditMode, deleting
+		data, width, activeItem, selectedItems, deleting
 	} = store;
 
 	const content = activeItem ?
@@ -22,17 +21,11 @@ const App = () => {
 			<Col className="br overflow-auto" style={{ flex: `0 0 ${width}px` }}>
 				<SmurfList
 					items={data}
-					onItemClick={onItemClick}
-					onSelectItem={onSelectItem}
-					onDelete={onDelete}
 					canDelete={selectedItems.length > 0}
-					selectedItems={selectedItems}
-					onEdit={onEdit}
-					isEditMode={isEditMode}
-					activeItem={activeItem}/>
+					{...store}/>
 				{ deleting && <div className="overlay"/> }
 			</Col>
-			<Col style={{flex: '0 0 5px', cursor: 'move'}} onMouseDown={startDrag}/>
+			<Col style={{flex: '0 0 5px', cursor: 'col-resize'}} onMouseDown={startDrag}/>
 			<Col className="d-flex align-items-center justify-content-center">
 				<div className="w-50">
 					{content}
