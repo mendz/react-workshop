@@ -37,3 +37,23 @@ body {
   max-height: 0;
   padding: 0 !important;
 }
+
+.fly-out-enter {
+  transition: all 500ms;
+}
+
+.fly-out-enter.fly-out-enter-active {
+  transform: translateX(100px) scale(0.5);
+  opacity: 0;
+}
+
+.fly-in-enter {
+  transition: all 500ms;
+  transform: translateX(-100px) scale(0.5);
+  opacity: 0;
+}
+
+.fly-in-enter.fly-in-enter-active {
+  transform: none;
+  opacity: 1;
+}
