@@ -26,3 +26,14 @@ body {
   height: 100%;
   background: red;
 }
+
+.collapse-enter {
+  transition: all 500ms;
+  max-height: 100px;
+  overflow: hidden;
+}
+
+.collapse-enter.collapse-enter-active {
+  max-height: 0;
+  padding: 0 !important;
+}

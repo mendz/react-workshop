@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
+import {CSSTransition} from 'react-transition-group'
 import SmurfItem from './SmurfItem';
 import { Input, Button } from 'reactstrap';
 
@@ -16,7 +17,7 @@ class SmurfList extends Component {
 	};
 
 	render() {
-		const { items, onItemClick, onSelectItem, canDelete, isEditMode, onDelete, onEdit, selectedItems, activeItem } = this.props;
+		const { items, onItemClick, onSelectItem, canDelete, isEditMode, onDelete, onEdit, selectedItems, activeItem, deleteTransition, onDeleteTransitionEnd } = this.props;
 		const { filter } = this.state;
 
 		let itemsToRender = items;
@@ -38,18 +39,23 @@ class SmurfList extends Component {
 					<Button color="primary" outline={!isEditMode} onClick={onEdit} className="mr-3"><i className="fa fa-pencil"/></Button>
 					<Button color="danger" title={deleteTooltip} disabled={isDeleteDisabled} onClick={onDelete}><i className="fa fa-trash"/></Button>
 				</div>
-				{itemsToRender.map((item, i) => (
-					<div className={cn("d-flex align-items-center bb py-2 position-relative", { active: activeItem && (item.name === activeItem.name) })} key={item.name}>
-						{ isEditMode &&
+				{itemsToRender.map((item, i) => {
+					const isSelected = !!selectedItems.find(item2 => item2.name === item.name);
+					const isActive = activeItem && (item.name === activeItem.name);
+					return <CSSTransition timeout={500} classNames="collapse" in={deleteTransition && isSelected} key={item.name} onEntered={onDeleteTransitionEnd}>
+						<div
+							className={cn("d-flex align-items-center bb py-2 position-relative", {active: isActive})}>
+							{isEditMode &&
 							<input
 								className="ml-3"
 								type="checkbox"
 								onChange={(e) => onSelectItem(item, e.target.checked)}
-								checked={!!selectedItems.find(item2 => item2.name === item.name)}
-							/> }
-						<SmurfItem item={item} onClick={onItemClick} />
-					</div>
-				))}
+								checked={isSelected}
+							/>}
+							<SmurfItem item={item} onClick={onItemClick}/>
+						</div>
+					</CSSTransition>
+				})}
 			</div>
 		);
 	}

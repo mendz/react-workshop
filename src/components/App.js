@@ -15,7 +15,8 @@ export default class App extends Component {
 		selectedItems: [],
 		width: 300,
 		isEditMode: false,
-		deleting: false
+		deleting: false,
+		deleteTransition: false
 	};
 
 	onItemClick = (item) => {
@@ -44,7 +45,7 @@ export default class App extends Component {
 	};
 
 	onDelete = () => {
-		const { data, selectedItems } = this.state;
+		const { selectedItems } = this.state;
 
 		this.setState({
 			deleting: true
@@ -52,12 +53,21 @@ export default class App extends Component {
 
 		deleteSmurfs(selectedItems).then(() => {
 			this.setState({
-				data: data.filter(item => !selectedItems.find(item2 => item2.name === item.name)),
-				isEditMode: false,
-				selectedItems: [],
-				deleting: false
+				deleting: false,
+				deleteTransition: true
 			});
 		});
+	};
+
+	onDeleteTransitionEnd = () => {
+		const { data, selectedItems } = this.state;
+
+		this.setState({
+			data: data.filter(item => !selectedItems.find(item2 => item2.name === item.name)),
+			isEditMode: false,
+			selectedItems: [],
+			deleteTransition: false
+		})
 	};
 
 	onDragStart = (e) => {
@@ -79,7 +89,7 @@ export default class App extends Component {
 	};
 
 	render() {
-		const { data, width, activeItem, selectedItems, isEditMode, deleting } = this.state;
+		const { data, width, activeItem, selectedItems, isEditMode, deleting, deleteTransition } = this.state;
 
 		const content = activeItem ?
 			<Smurf {...activeItem} /> :
@@ -96,7 +106,9 @@ export default class App extends Component {
 						canDelete={selectedItems.length > 0}
 						selectedItems={selectedItems}
 						onEdit={this.onEdit}
-						isEditMode={isEditMode}/>
+						isEditMode={isEditMode}
+						deleteTransition={deleteTransition}
+						onDeleteTransitionEnd={this.onDeleteTransitionEnd}/>
 					{ deleting && <div className="overlay"/> }
 				</Col>
 				<Col style={{flex: '0 0 5px', cursor: 'move'}} onMouseDown={this.onDragStart}/>
