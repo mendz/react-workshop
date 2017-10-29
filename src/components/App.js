@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Smurf from './Smurf';
 import { Row, Col } from 'reactstrap';
 import SmurfList from "./SmurfList";
-import { deleteSmurfs } from '../services/smurf-service';
+import { deleteSmurfs, getSmurf } from '../services/smurf-service';
 
 let startX;
 let startWidth;
@@ -16,15 +16,24 @@ export default class App extends Component {
 		width: 300,
 		isEditMode: false,
 		deleting: false,
-		deleteTransition: false
+		deleteTransition: false,
+		gettingItem: false
 	};
 
 	onItemClick = (item) => {
 		const newData = [...this.state.data];
 		newData.splice(newData.indexOf(item), 1, Object.assign(item, {isRead: true}));
+
 		this.setState({
-			activeItem: item,
-			data: newData
+			gettingItem: true
+		});
+
+		getSmurf(item).then((smurfInput) => {
+			this.setState({
+				activeItem: item,
+				data: newData,
+				gettingItem: false
+			});
 		});
 	};
 
@@ -91,9 +100,11 @@ export default class App extends Component {
 	render() {
 		const { data, width, activeItem, selectedItems, isEditMode, deleting, deleteTransition } = this.state;
 
-		const content = activeItem ?
+		const content = (activeItem && !this.state.gettingItem) ?
 			<Smurf {...activeItem} /> :
-			<div className="text-center text-muted">Choose a smurf on the right...</div>;
+			<div className="text-center text-muted">
+				{this.state.gettingItem ? 'Loading from the server... ⏲' : 'Choose a smurf on the right...'}
+			</div>;
 
 		return (
 			<Row className="h-100 bg-white" noGutters>
