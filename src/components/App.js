@@ -138,6 +138,7 @@ export default class App extends Component {
             changingItem={changingItem}
             loading={loading}
             chooseSmurf={chooseSmurf}
+            changingItemTransition = {changingItemTransition}
             onChangingItemTransitionEnd={this.onChangingItemTransitionEnd}
             />
         </Col>

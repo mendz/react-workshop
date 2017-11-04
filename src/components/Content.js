@@ -2,12 +2,14 @@ import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import Smurf from './Smurf';
 
-const Content = ({ changingItem, activeItem, loading, chooseSmurf, onChangingItemTransitionEnd }) => {
+const Content = ({ changingItem, activeItem, loading, chooseSmurf, changingItemTransition, onChangingItemTransitionEnd }) => {
   let Content;
+
+  console.log({ changingItem, activeItem,changingItemTransition, onChangingItemTransitionEnd });
 
   if (activeItem && !changingItem) {
     return (
-      <CSSTransition timeout={500} classNames="fly-out" in={changingItem} onEntered={onChangingItemTransitionEnd}>
+      <CSSTransition timeout={500} classNames="fly-out" in={changingItemTransition} onEntered={onChangingItemTransitionEnd}>
         <div className="w-50">{<Smurf {...activeItem} />}</div>
       </CSSTransition>
     );
